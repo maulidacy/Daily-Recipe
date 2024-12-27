@@ -41,31 +41,31 @@ include "koneksi.php";
 
     /* Mengatur warna latar belakang untuk elemen dengan kelas .bg-blue
     ketika mode tema gelap (dark) diaktifkan */
-    [data-bs-theme="dark"] 
-        .bg-blue {
-            background-color: #2c3e50;
-        }
+    [data-bs-theme="dark"] .bg-blue {
+        background-color: #2c3e50;
+    }
 
-        .navbar-brand {
-            color: rgb(214, 220, 225);
-        }
-    
+    [data-bs-theme="dark"] .navbar-brand {
+        color: rgb(214, 220, 225);
+    }
 
-    [data-bs-theme="light"] 
+    [data-bs-theme="dark"] .nav-link:hover {
+        color: rgb(150, 167, 175);
+    }
 
-        .navbar-brand,
-        .nav-link {
-            color: #f8f9fa;
-        }
+    [data-bs-theme="light"] .navbar-brand,
+    .nav-link {
+        color: #f8f9fa;
+    }
 
-        .nav-link:hover {
-            color: rgb(150, 167, 175);
-        }
+    [data-bs-theme="light"] .nav-link:hover {
+        color: rgb(150, 167, 175);
+    }
 
-        .container h1 {
-            color: #f8f9fa;
-        }
-    
+    [data-bs-theme="light"] .container h1 {
+        color: #f8f9fa;
+    }
+
 
     .nav-link:hover {
         color: #f8f9fa;
