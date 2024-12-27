@@ -2,7 +2,7 @@
 include "koneksi.php";
 ?>
 
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en" data-bs-theme="dark">
 
 <head>
@@ -41,7 +41,7 @@ include "koneksi.php";
 
     /* Mengatur warna latar belakang untuk elemen dengan kelas .bg-blue
     ketika mode tema gelap (dark) diaktifkan */
-    [data-bs-theme="dark"] {
+    [data-bs-theme="dark"] 
         .bg-blue {
             background-color: #2c3e50;
         }
@@ -49,9 +49,9 @@ include "koneksi.php";
         .navbar-brand {
             color: rgb(214, 220, 225);
         }
-    }
+    
 
-    [data-bs-theme="light"] {
+    [data-bs-theme="light"] 
 
         .navbar-brand,
         .nav-link {
@@ -65,7 +65,7 @@ include "koneksi.php";
         .container h1 {
             color: #f8f9fa;
         }
-    }
+    
 
     .nav-link:hover {
         color: #f8f9fa;
