@@ -39,8 +39,8 @@ include "koneksi.php";
         background-color: #446879;
     }
 
-    /* Mengatur warna latar belakang untuk elemen dengan kelas .bg-blue
-    ketika mode tema gelap (dark) diaktifkan */
+    /*Mengatur warna latar belakang untuk elemen dengan kelas .bg-blue
+    ketika mode tema gelap (dark) diaktifkan*/
     [data-bs-theme="dark"] .bg-blue {
         background-color: #2c3e50;
     }
@@ -65,7 +65,6 @@ include "koneksi.php";
     [data-bs-theme="light"] .container h1 {
         color: #f8f9fa;
     }
-
 
     .nav-link:hover {
         color: #f8f9fa;
@@ -181,7 +180,7 @@ include "koneksi.php";
             </div>
         </div>
     </section>
-    <!-- article end -->
+    <!--article end-->
 
     <!--gallery start-->
     <section id="gallery" class="text-center p-5 bg-beige">
@@ -304,7 +303,6 @@ include "koneksi.php";
             </div>
         </div>
     </section>
-
     <!--schedule end-->
 
     <!--about me start-->
@@ -321,7 +319,6 @@ include "koneksi.php";
             </div>
         </div>
     </section>
-
     <!--about me and-->
 
     <!--footer start-->
@@ -448,7 +445,6 @@ include "koneksi.php";
             })
         })()
     </script>
-
 
 </body>
 
