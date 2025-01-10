@@ -1,33 +1,26 @@
 <div class="container">
     <!--Button trigger modal-->
     <button type="button" class="btn btn-secondary mb-2" data-bs-toggle="modal" data-bs-target="#modalTambah">
-        <i class="bi bi-plus-lg"></i> Tambah Article
+        <i class="bi bi-plus-lg"></i> Tambah Gallery
     </button>
 
     <div class="row">
-        <div class="table-responsive" id="article_data">
-            <!--Konten dari article_data.php akan dimuat di sini-->
+        <div class="table-responsive" id="gallery_data">
+            <!--Konten dari gallery_data.php akan dimuat di sini-->
         </div>
     </div>
+
 
     <!--Awal Modal Tambah-->
     <div class="modal fade" id="modalTambah" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Tambah Article</h1>
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Tambah Gallery</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form method="post" action="" enctype="multipart/form-data">
                     <div class="modal-body">
-                        <div class="mb-3">
-                            <label for="formGroupExampleInput" class="form-label">Judul</label>
-                            <input type="text" class="form-control" name="judul" placeholder="Tuliskan Judul Artikel" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="floatingTextarea2">Isi</label>
-                            <textarea class="form-control" placeholder="Tuliskan Isi Artikel" name="isi" required></textarea>
-                        </div>
                         <div class="mb-3">
                             <label for="formGroupExampleInput2" class="form-label">Gambar</label>
                             <input type="file" class="form-control" name="gambar">
@@ -41,36 +34,35 @@
             </div>
         </div>
     </div>
-    <!--Akhir Modal Tambah-->
+    <!-- Akhir Modal Tambah-->
 </div>
 </div>
-
+<!-- Akhir Modal Tambah-->
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
         load_data(); //load data saat halaman dimuat
 
-        function load_data(hlm) {
+        function load_data(hlm = 1) {
             $.ajax({
-                url: "article_data.php",
+                url: "gallery_data.php", //mengarahkan ke file gallery_data.php
                 method: "POST",
                 data: {
                     hlm: hlm
                 },
                 success: function(data) {
-                    $('#article_data').html(data);
+                    $('#gallery_data').html(data); //memuat data ke dalam elemen dengan ID article_data
                 }
             })
         }
 
         $(document).on('click', '.halaman', function() {
-            var hlm = $(this).attr("id");
-            load_data(hlm);
+            var hlm = $(this).attr("id"); //ambil nomor halaman
+            load_data(hlm); //memanggil fungsi untuk load data
         });
     });
 </script>
-
 
 
 <?php
@@ -78,8 +70,6 @@ include "upload_foto.php";
 
 //jika tombol simpan diklik
 if (isset($_POST['simpan'])) {
-    $judul = $_POST['judul'];
-    $isi = $_POST['isi'];
     $tanggal = date("Y-m-d H:i:s");
     $username = $_SESSION['username'];
     $gambar = '';
@@ -99,7 +89,7 @@ if (isset($_POST['simpan'])) {
             //jika true maka message berisi pesan error, tampilkan dalam alert
             echo "<script>
                 alert('" . $cek_upload['message'] . "');
-                document.location='admin.php?page=article';
+                document.location='admin.php?page=gallery';
             </script>";
             die;
         }
@@ -107,7 +97,7 @@ if (isset($_POST['simpan'])) {
 
     //cek apakah ada id yang dikirimkan dari form
     if (isset($_POST['id'])) {
-        //jika ada id,    lakukan update data dengan id tersebut
+        //jika ada id, lakukan update data dengan id tersebut
         $id = $_POST['id'];
 
         if ($nama_gambar == '') {
@@ -118,35 +108,33 @@ if (isset($_POST['simpan'])) {
             unlink("img/" . $_POST['gambar_lama']);
         }
 
-        $stmt = $conn->prepare("UPDATE article 
+        $stmt = $conn->prepare("UPDATE gallery 
                                 SET 
-                                judul =?,
-                                isi =?,
-                                gambar = ?,
                                 tanggal = ?,
+                                gambar = ?,
                                 username = ?
                                 WHERE id = ?");
 
-        $stmt->bind_param("sssssi", $judul, $isi, $gambar, $tanggal, $username, $id);
+        $stmt->bind_param("sssi", $tanggal, $gambar, $username, $id);
         $simpan = $stmt->execute();
     } else {
         //jika tidak ada id, lakukan insert data baru
-        $stmt = $conn->prepare("INSERT INTO article (judul,isi,gambar,tanggal,username)
-                                VALUES (?,?,?,?,?)");
+        $stmt = $conn->prepare("INSERT INTO gallery (tanggal,gambar,username)
+                                VALUES (?,?,?)");
 
-        $stmt->bind_param("sssss", $judul, $isi, $gambar, $tanggal, $username);
+        $stmt->bind_param("sss", $tanggal, $gambar, $username);
         $simpan = $stmt->execute();
     }
 
     if ($simpan) {
         echo "<script>
             alert('Simpan data sukses');
-            document.location='admin.php?page=article';
+            document.location='admin.php?page=gallery';
         </script>";
     } else {
         echo "<script>
             alert('Simpan data gagal');
-            document.location='admin.php?page=article';
+            document.location='admin.php?page=gallery';
         </script>";
     }
 
@@ -164,7 +152,7 @@ if (isset($_POST['hapus'])) {
         unlink("img/" . $gambar);
     }
 
-    $stmt = $conn->prepare("DELETE FROM article WHERE id =?");
+    $stmt = $conn->prepare("DELETE FROM gallery WHERE id =?");
 
     $stmt->bind_param("i", $id);
     $hapus = $stmt->execute();
@@ -172,12 +160,12 @@ if (isset($_POST['hapus'])) {
     if ($hapus) {
         echo "<script>
             alert('Hapus data sukses');
-            document.location='admin.php?page=article';
+            document.location='admin.php?page=gallery';
         </script>";
     } else {
         echo "<script>
             alert('Hapus data gagal');
-            document.location='admin.php?page=article';
+            document.location='admin.php?page=gallery';
         </script>";
     }
 
@@ -185,37 +173,3 @@ if (isset($_POST['hapus'])) {
     $conn->close();
 }
 ?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -2,41 +2,39 @@
     <thead class="table-dark">
         <tr>
             <th>No</th>
-            <th class="w-25">Judul</th>
-            <th class="w-75">Isi</th>
-            <th class="w-25">Gambar</th>
+            <th class="w-25">Tanggal</th>
+            <th class="w-75">Gambar</th>
             <th class="w-25">Aksi</th>
         </tr>
     </thead>
     <tbody>
 
         <?php
-        include "koneksi.php";
+        include 'koneksi.php';
 
-        //pagination
+        //pagination start
         $hlm = (isset($_POST['hlm'])) ? $_POST['hlm'] : 1;
         $limit = 3; //Jumlah artikel per halaman
         $limit_start = ($hlm - 1) * $limit;
         $no = $limit_start + 1;
 
-        $sql = "SELECT * FROM article ORDER BY tanggal DESC LIMIT $limit_start, $limit";
-        $hasil = $conn->query($sql);
+        $sql2 = "SELECT * FROM gallery ORDER BY tanggal DESC LIMIT $limit_start, $limit";
+        $hasil2 = $conn->query($sql2);
         //pagination end
 
-        while ($row = $hasil->fetch_assoc()) {
+        while ($row = $hasil2->fetch_assoc()) {
         ?>
             <tr>
                 <td><?= $no++ ?></td>
                 <td>
-                    <strong><?= $row["judul"] ?></strong>
-                    <br>pada : <?= $row["tanggal"] ?>
-                    <br>oleh : <?= $row["username"] ?>
+                    <br>pada: <?= $row["tanggal"] ?>
+                    <br>oleh: <?= $row["username"] ?>
                 </td>
-                <td><?= $row["isi"] ?></td>
+
                 <td>
                     <?php
                     if ($row["gambar"] != '') {
-                        if (file_exists('img/' . $row["gambar"] . '')) {
+                        if (file_exists('img/' . $row["gambar"])) {
                     ?>
                             <img src="img/<?= $row["gambar"] ?>" width="100">
                     <?php
@@ -53,24 +51,16 @@
                     </a>
 
                     <!--Awal Modal Edit-->
-                    <div class="modal fade" id="modalEdit<?= $row["id"] ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal fade" id="modalEdit<?= $row["id"] ?>" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Edit Article</h1>
+                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Edit Gallery</h1>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <form method="post" action="" enctype="multipart/form-data">
+                                    <input type="hidden" name="id" value="<?= $row["id"] ?>">
                                     <div class="modal-body">
-                                        <div class="mb-3">
-                                            <label for="formGroupExampleInput" class="form-label">Judul</label>
-                                            <input type="hidden" name="id" value="<?= $row["id"] ?>">
-                                            <input type="text" class="form-control" name="judul" placeholder="Tuliskan Judul Artikel" value="<?= $row["judul"] ?>" required>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="floatingTextarea2">Isi</label>
-                                            <textarea class="form-control" placeholder="Tuliskan Isi Artikel" name="isi" required><?= $row["isi"] ?></textarea>
-                                        </div>
                                         <div class="mb-3">
                                             <label for="formGroupExampleInput2" class="form-label">Ganti Gambar</label>
                                             <input type="file" class="form-control" name="gambar">
@@ -79,7 +69,7 @@
                                             <label for="formGroupExampleInput3" class="form-label">Gambar Lama</label>
                                             <?php
                                             if ($row["gambar"] != '') {
-                                                if (file_exists('img/' . $row["gambar"] . '')) {
+                                                if (file_exists('img/' . $row["gambar"])) {
                                             ?>
                                                     <br><img src="img/<?= $row["gambar"] ?>" width="100">
                                             <?php
@@ -99,18 +89,19 @@
                     </div>
                     <!--Akhir Modal Edit-->
 
+
                     <!--Awal Modal Hapus-->
                     <div class="modal fade" id="modalHapus<?= $row["id"] ?>" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h1 class="modal-title fs-5">Konfirmasi Hapus Article</h1>
+                                    <h1 class="modal-title fs-5">Konfirmasi Hapus Gambar</h1>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <form method="post" action="" enctype="multipart/form-data">
                                     <div class="modal-body">
                                         <div class="mb-3">
-                                            <label class="form-label">Yakin akan menghapus artikel "<strong><?= $row["judul"] ?></strong>"?</label>
+                                            <label class="form-label">Yakin akan menghapus gambar "<strong><?= $row["gambar"] ?></strong>"?</label>
                                             <input type="hidden" name="id" value="<?= $row["id"] ?>">
                                             <input type="hidden" name="gambar" value="<?= $row["gambar"] ?>">
                                         </div>
@@ -132,16 +123,15 @@
     </tbody>
 </table>
 
-
 <?php
 
-//untuk menghitung total artikel
-$sql1 = "SELECT * FROM article";
-$hasil1 = $conn->query($sql1);
-$total_records = $hasil1->num_rows;
+//untuk menghitung total gambar
+$sql2 = "SELECT * FROM gallery";
+$hasil2 = $conn->query($sql2);
+$total_records = $hasil2->num_rows;
 ?>
 
-<p>Total article : <?php echo $total_records; ?></p>
+<p>Total gallery : <?php echo $total_records; ?></p>
 
 <nav class="mb-2">
     <ul class="pagination justify-content-end">
@@ -156,8 +146,8 @@ $total_records = $hasil1->num_rows;
             echo '<li class="page-item disabled"><span class="page-link">First</span></li>';
             echo '<li class="page-item disabled"><span class="page-link">&laquo;</span></li>';
         } else {
-            $link_prev = ($hlm > 1) ? $hlm - 1 : 1;
             echo '<li class="page-item halaman" id="1"><a class="page-link" href="#">First</a></li>';
+            $link_prev = ($hlm > 1) ? $hlm - 1 : 1;
             echo '<li class="page-item halaman" id="' . $link_prev . '"><a class="page-link" href="#">&laquo;</a></li>';
         }
 

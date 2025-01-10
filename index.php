@@ -39,8 +39,8 @@ include "koneksi.php";
         background-color: #446879;
     }
 
-    /*Mengatur warna latar belakang untuk elemen dengan kelas .bg-blue
-    ketika mode tema gelap (dark) diaktifkan*/
+    /* Mengatur warna latar belakang untuk elemen dengan kelas .bg-blue
+    ketika mode tema gelap (dark) diaktifkan */
     [data-bs-theme="dark"] .bg-blue {
         background-color: #2c3e50;
     }
@@ -65,6 +65,7 @@ include "koneksi.php";
     [data-bs-theme="light"] .container h1 {
         color: #f8f9fa;
     }
+
 
     .nav-link:hover {
         color: #f8f9fa;
@@ -180,40 +181,45 @@ include "koneksi.php";
             </div>
         </div>
     </section>
-    <!--article end-->
+    <!-- article end -->
 
     <!--gallery start-->
-    <section id="gallery" class="text-center p-5 bg-beige">
+    <section id="gallery" class="text-center p-5">
         <div class="container-gallery">
             <h1 class="fw-bold display-4 pb-3">gallery</h1>
             <div id="carouselExample" class="carousel slide">
                 <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img src="img/gambar1.jpeg" class="d-block w-100" alt="...">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="img/gambar2.jpeg" class="d-block w-100" alt="...">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="img/gambar3.jpeg" class="d-block w-100" alt="...">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="img/gambar1.jpeg" class="d-block w-100" alt="...">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="img/gambar3.jpeg" class="d-block w-100" alt="...">
-                    </div>
+                    <?php
+                    $sql2 = "SELECT * FROM gallery ORDER BY tanggal DESC";
+                    $hasil2 = $conn->query($sql2);
+
+                    $active = true; // Untuk menentukan slide pertama sebagai active
+                    while ($row = $hasil2->fetch_assoc()) {
+                    ?>
+
+                        <div class="carousel-item <?php if ($active) {
+                                                        echo 'active';
+                                                        $active =
+                                                            false;
+                                                    } ?>">
+                            <img src="img/<?= $row["gambar"] ?>" class="d-block w-
+      100" alt="...">
+                        </div>
+
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample"
+                            data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample"
+                            data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    <?php
+                    }
+                    ?>
                 </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample"
-                    data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExample"
-                    data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
             </div>
         </div>
     </section>
@@ -303,6 +309,7 @@ include "koneksi.php";
             </div>
         </div>
     </section>
+
     <!--schedule end-->
 
     <!--about me start-->
@@ -319,6 +326,7 @@ include "koneksi.php";
             </div>
         </div>
     </section>
+
     <!--about me and-->
 
     <!--footer start-->
@@ -445,6 +453,7 @@ include "koneksi.php";
             })
         })()
     </script>
+
 
 </body>
 

@@ -1,6 +1,6 @@
 <?php
-session_start();
 
+session_start();
 include "koneksi.php";
 
 //check jika belum ada user yang login arahkan ke halaman login
@@ -15,7 +15,7 @@ if (!isset($_SESSION['username'])) {
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>My Daily Journal | Admin</title>
+    <title>Best Recipe | Admin</title>
     <link rel="icon" href="img/logo.png" />
     <link
         rel="stylesheet"
@@ -55,10 +55,10 @@ if (!isset($_SESSION['username'])) {
 </head>
 
 <body>
-    <!-- nav begin -->
+    <!--nav begin-->
     <nav class="navbar navbar-expand-lg bg-blue sticky-top">
         <div class="container">
-            <a class="navbar-brand" href="">My Daily Journal</a>
+            <a class="navbar-brand" href="">Best Recipe</a>
             <button
                 class="navbar-toggler"
                 type="button"
@@ -77,11 +77,18 @@ if (!isset($_SESSION['username'])) {
                     <li class="nav-item">
                         <a class="nav-link" href="admin.php?page=article">Article</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="admin.php?page=gallery">Gallery</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.php?page=article">Homepage</a>
+                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle text-light fw-bold" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <?= $_SESSION['username'] ?>
                         </a>
                         <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="profile.php?page=profile">Profile <?= $_SESSION['username'] ?></a></li>
                             <li><a class="dropdown-item" href="logout.php">Logout</a></li>
                         </ul>
                     </li>
@@ -89,9 +96,9 @@ if (!isset($_SESSION['username'])) {
             </div>
         </div>
     </nav>
-    <!-- nav end -->
+    <!--nav end-->
 
-    <!-- content begin -->
+    <!--content begin-->
     <section id="content" class="p-5">
         <div class="container">
             <?php
@@ -110,7 +117,7 @@ if (!isset($_SESSION['username'])) {
             ?>
         </div>
     </section>
-    <!-- content end -->
+    <!--content end-->
 
     <!--footer start-->
     <footer class="text-center p-5 bg-blue">

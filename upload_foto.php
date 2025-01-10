@@ -17,19 +17,19 @@ function upload_foto($File)
 	//Allowed files:
 	$Allowed = array('jpg', 'png', 'gif', 'jpeg');
 
-	// Check file size
+	//Check file size
 	if ($FileSize > 500000) {
 		$message .= "Sorry, your file is too large, max 500KB. ";
 		$uploadOk = 0;
 	}
 
-	// Allow certain file formats
+	//Allow certain file formats
 	if (!in_array($FileExt, $Allowed)) {
 		$message .= "Sorry, only JPG, JPEG, PNG & GIF files are allowed. ";
 		$uploadOk = 0;
 	}
 
-	// Check if $uploadOk is set to 0 by an error
+	//Check if $uploadOk is set to 0 by an error
 	if ($uploadOk == 0) {
 		$message .= "Sorry, your file was not uploaded. ";
 		$hasil['status'] = false;
@@ -52,3 +52,4 @@ function upload_foto($File)
 	$hasil['message'] = $message;
 	return $hasil;
 }
+?>
